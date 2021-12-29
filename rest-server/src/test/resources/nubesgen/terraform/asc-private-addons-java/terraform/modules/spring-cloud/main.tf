@@ -4,6 +4,7 @@ locals {
   spring_cloud_app_name     = "app-${var.application_name}"
   cosmosdb_association_name = "${var.application_name}-cosmos"
   redis_association_name    = "${var.application_name}-redis"
+
   # Azure Spring Cloud Resource Provider object id. It is a constant and it is required to manage the VNET.
   azure_spring_cloud_provisioner_object_id = "d2531223-68f9-459e-b225-5592f90d145e"
 }
