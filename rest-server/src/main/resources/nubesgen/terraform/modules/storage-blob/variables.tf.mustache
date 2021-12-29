@@ -21,7 +21,7 @@ variable "location" {
   description = "The Azure region where all resources in this example should be created"
   default     = ""
 }
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
 variable "subnet_id" {
   type        = string
@@ -32,4 +32,4 @@ variable "myip" {
   type        = string
   description = "The IP address of the current client. It is required to provide access to this client to be able to create containers"
 }
-{{/NetworkVNet}}
+{{/NetworkPublic}}

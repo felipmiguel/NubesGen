@@ -148,7 +148,7 @@ module "application" {
     {{/keyVaultIntegration}}
   {{/addonKeyVault}}
 {{/addonCosmosdbMongodb}}
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
   {{^applicationTypeSpringCloud}}
   subnet_id = module.network.app_subnet_id
@@ -159,7 +159,7 @@ module "application" {
   service_subnet_id  = module.network.service_subnet_id
   cidr_ranges        = var.cidr_ranges
   {{/applicationTypeSpringCloud}}
-{{/NetworkVNet}}
+{{/NetworkPublic}}
 }
 {{^databaseTypeNone}}
 
@@ -180,6 +180,9 @@ module "database" {
   {{#NetworkVNet}}
   subnet_id        = module.network.app_subnet_id
   {{/NetworkVNet}}
+  {{#NetworkVNetPrivateEndpoint}}
+  subnet_id        = module.network.addons_subnet_id
+  {{/NetworkVNetPrivateEndpoint}}
 }
 {{/databaseTypeNone}}
 {{#addonApplicationInsights}}
@@ -222,6 +225,10 @@ module "key-vault" {
   subnet_id = module.network.app_subnet_id
   myip      = local.myip
   {{/NetworkVNet}}
+  {{#NetworkVNetPrivateEndpoint}}
+
+  subnet_id = module.network.addons_subnet_id
+  {{/NetworkVNetPrivateEndpoint}}
 }
 {{/addonKeyVault}}
 {{#addonRedis}}
@@ -232,9 +239,9 @@ module "redis" {
   application_name = var.application_name
   environment      = local.environment
   location         = var.location
-  {{#NetworkVNet}}
+  {{^NetworkPublic}}
   subnet_id        = module.network.redis_subnet_id
-  {{/NetworkVNet}}
+  {{/NetworkPublic}}
 }
 {{/addonRedis}}
 {{#addonStorageBlob}}
@@ -249,6 +256,9 @@ module "storage-blob" {
   subnet_id        = module.network.app_subnet_id
   myip             = local.myip
   {{/NetworkVNet}}
+  {{#NetworkVNetPrivateEndpoint}}
+  subnet_id        = module.network.addons_subnet_id
+  {{/NetworkVNetPrivateEndpoint}}
 }
 {{/addonStorageBlob}}
 {{#addonCosmosdbMongodb}}
@@ -262,9 +272,12 @@ module "cosmosdb-mongodb" {
   {{#NetworkVNet}}
   subnet_id        = module.network.app_subnet_id
   {{/NetworkVNet}}
+  {{#NetworkVNetPrivateEndpoint}}
+  subnet_id        = module.network.addons_subnet_id
+  {{/NetworkVNetPrivateEndpoint}}
 }
 {{/addonCosmosdbMongodb}}
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
 module "network" {
   source           = "./modules/virtual-network"
@@ -283,9 +296,13 @@ module "network" {
 
   service_subnet_prefix = var.service_subnet_prefix
   {{/applicationTypeSpringCloud}}
+  {{#NetworkVNetPrivateEndpoint}}
+
+  addons_subnet_prefix = var.addons_subnet_prefix
+  {{/NetworkVNetPrivateEndpoint}}
   {{#addonRedis}}
 
   redis_subnet_prefix = var.redis_subnet_prefix
   {{/addonRedis}}
 }
-{{/NetworkVNet}}
+{{/NetworkPublic}}

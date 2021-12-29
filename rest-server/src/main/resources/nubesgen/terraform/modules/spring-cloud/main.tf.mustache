@@ -8,10 +8,10 @@ locals {
 {{#addonRedis}}
   redis_association_name    = "${var.application_name}-redis"
 {{/addonRedis}}
-{{^NetworkVNet}}
+{{#NetworkPublic}}
 }
-{{/NetworkVNet}}
-{{#NetworkVNet}}
+{{/NetworkPublic}}
+{{^NetworkPublic}}
 
   # Azure Spring Cloud Resource Provider object id. It is a constant and it is required to manage the VNET.
   azure_spring_cloud_provisioner_object_id = "d2531223-68f9-459e-b225-5592f90d145e"
@@ -24,7 +24,7 @@ resource "azurerm_role_assignment" "provider_owner" {
   role_definition_name = "Owner"
   principal_id         = local.azure_spring_cloud_provisioner_object_id
 }
-{{/NetworkVNet}}
+{{/NetworkPublic}}
 
 # This creates the Azure Spring Cloud that the service use
 resource "azurerm_spring_cloud_service" "application" {
@@ -47,7 +47,7 @@ resource "azurerm_spring_cloud_service" "application" {
     connection_string = var.azure_application_insights_connection_string
   }
 {{/addonApplicationInsights}}
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
   network {
     app_subnet_id             = var.app_subnet_id
@@ -58,9 +58,9 @@ resource "azurerm_spring_cloud_service" "application" {
   depends_on = [
     azurerm_role_assignment.provider_owner
   ]
-{{/NetworkVNet}}
+{{/NetworkPublic}}
 }
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
 # Gets the Azure Spring Cloud internal load balancer IP address once it is deployed
 data "azurerm_lb" "asc_internal_lb" {
@@ -93,7 +93,7 @@ resource "azurerm_private_dns_a_record" "internal_lb_record" {
   ttl                 = 300
   records             = [data.azurerm_lb.asc_internal_lb.private_ip_address]
 }
-{{/NetworkVNet}}
+{{/NetworkPublic}}
 
 # This creates the application definition
 resource "azurerm_spring_cloud_app" "application" {

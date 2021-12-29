@@ -51,7 +51,7 @@ variable "cosmosdb_mongodb_uri" {
   description = "The Cosmos DB connection string"
 }
 {{/addonCosmosdbMongodb}}
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
 variable "subnet_id" {
   type        = string
@@ -62,4 +62,4 @@ variable "myip" {
   type        = string
   description = "The IP address of the current client. It is required to provide access to this client to be able to create the secrets"
 }
-{{/NetworkVNet}}
+{{/NetworkPublic}}

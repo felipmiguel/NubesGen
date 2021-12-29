@@ -23,7 +23,7 @@ variable "location" {
   description = "The Azure region where all resources in this example should be created"
   default     = "{{region}}"
 }
-{{#NetworkVNet}}
+{{^NetworkPublic}}
 
 variable "address_space" {
   type        = string
@@ -43,13 +43,31 @@ variable "service_subnet_prefix" {
   description = "Azure Spring Cloud service subnet prefix"
   default     = "10.11.1.0/24"
 }
+{{#NetworkVNetPrivateEndpoint}}
+
+variable "addons_subnet_prefix" {
+  type        = string
+  description = "Addons subnet prefix"
+  default     = "10.11.2.0/24"
+}
+{{/NetworkVNetPrivateEndpoint}}
 {{#addonRedis}}
+{{^NetworkVNetPrivateEndpoint}}
 
 variable "redis_subnet_prefix" {
   type        = string
   description = "Redis cache subnet prefix"
   default     = "10.11.2.0/24"
 }
+{{/NetworkVNetPrivateEndpoint}}
+{{#NetworkVNetPrivateEndpoint}}
+
+variable "redis_subnet_prefix" {
+  type        = string
+  description = "Redis cache subnet prefix"
+  default     = "10.11.3.0/24"
+}
+{{/NetworkVNetPrivateEndpoint}}
 {{/addonRedis}}
 
 variable "cidr_ranges" {
@@ -65,13 +83,31 @@ variable "app_subnet_prefix" {
   description = "Application subnet prefix"
   default     = "10.11.0.0/24"
 }
+{{#NetworkVNetPrivateEndpoint}}
+
+variable "addons_subnet_prefix" {
+  type        = string
+  description = "Addons subnet prefix"
+  default     = "10.11.1.0/24"
+}
+{{/NetworkVNetPrivateEndpoint}}
 {{#addonRedis}}
+{{#NetworkVNetPrivateEndpoint}}
+
+variable "redis_subnet_prefix" {
+  type        = string
+  description = "Redis cache subnet prefix"
+  default     = "10.11.2.0/24"
+}
+{{/NetworkVNetPrivateEndpoint}}
+{{^NetworkVNetPrivateEndpoint}}
 
 variable "redis_subnet_prefix" {
   type        = string
   description = "Redis cache subnet prefix"
   default     = "10.11.1.0/24"
 }
+{{/NetworkVNetPrivateEndpoint}}
 {{/addonRedis}}
 {{/applicationTypeSpringCloud}}
-{{/NetworkVNet}}
+{{/NetworkPublic}}
