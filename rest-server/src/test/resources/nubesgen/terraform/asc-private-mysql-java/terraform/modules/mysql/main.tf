@@ -69,7 +69,6 @@ resource "azurerm_private_endpoint" "private_endpoint" {
   location            = var.location
   resource_group_name = var.resource_group
   subnet_id           = var.subnet_id
-
   private_service_connection {
     name                           = "${azurerm_mysql_server.database.name}-pe"
     is_manual_connection           = false

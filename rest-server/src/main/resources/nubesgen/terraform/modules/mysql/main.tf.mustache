@@ -62,7 +62,7 @@ resource "azurerm_mysql_database" "database" {
   charset             = "utf8"
   collation           = "utf8_unicode_ci"
 }
-{{^NetworkVNet}}
+{{#NetworkPublic}}
 
 resource "azurecaf_name" "mysql_firewall_rule" {
   name          = var.application_name
@@ -78,7 +78,7 @@ resource "azurerm_mysql_firewall_rule" "database" {
   start_ip_address    = "0.0.0.0"
   end_ip_address      = "0.0.0.0"
 }
-{{/NetworkVNet}}
+{{/NetworkPublic}}
 {{#NetworkVNet}}
 
 resource "azurecaf_name" "mysql_network_rule" {
@@ -99,7 +99,7 @@ resource "azurerm_mysql_virtual_network_rule" "database" {
 resource "azurecaf_name" "private_endpoint" {
   name          = var.application_name
   resource_type = "azurerm_private_endpoint"
-  suffixes      = [var.environment, "kv"]
+  suffixes      = [var.environment, "mysql"]
 }
 
 resource "azurerm_private_endpoint" "private_endpoint" {
@@ -108,10 +108,10 @@ resource "azurerm_private_endpoint" "private_endpoint" {
   resource_group_name = var.resource_group
   subnet_id           = var.subnet_id
   private_service_connection {
-    name                           = "${azurerm_key_vault.application.name}-pe"
+    name                           = "${azurerm_mysql_server.database.name}-pe"
     is_manual_connection           = false
-    private_connection_resource_id = azurerm_key_vault.application.id
-    subresource_names              = ["vault"]
+    private_connection_resource_id = azurerm_mysql_server.database.id
+    subresource_names              = ["mysqlServer"]
   }
 }
 {{/NetworkVNetPrivateEndpoint}}

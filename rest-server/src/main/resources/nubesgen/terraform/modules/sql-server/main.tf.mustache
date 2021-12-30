@@ -54,7 +54,7 @@ resource "azurerm_mssql_database" "database" {
   sku_name = "GP_Gen5_2"
 {{/databaseTierGeneralPurpose}}
 }
-{{^NetworkVNet}}
+{{#NetworkPublic}}
 
 resource "azurecaf_name" "sql_firewall_rule" {
   name          = var.application_name
@@ -70,7 +70,7 @@ resource "azurerm_sql_firewall_rule" "database" {
   start_ip_address    = "0.0.0.0"
   end_ip_address      = "0.0.0.0"
 }
-{{/NetworkVNet}}
+{{/NetworkPublic}}
 {{#NetworkVNet}}
 
 resource "azurecaf_name" "sql_network_rule" {

@@ -190,6 +190,9 @@ public class ConfigurationService {
         if (network.startsWith(NetworkType.VIRTUAL_NETWORK.name())) {
             NetworkConfiguration networkConfiguration = new NetworkConfiguration(NetworkType.VIRTUAL_NETWORK);
             properties.setNetworkConfiguration(networkConfiguration);
+        } else if(network.startsWith(NetworkType.PRIVATE_ENDPOINT.name())) {
+            NetworkConfiguration networkConfiguration = new NetworkConfiguration(NetworkType.PRIVATE_ENDPOINT);
+            properties.setNetworkConfiguration(networkConfiguration);
         } else {
             properties.setNetworkConfiguration(new NetworkConfiguration());
         }
@@ -197,7 +200,10 @@ public class ConfigurationService {
             if (properties.getApplicationConfiguration().getApplicationType().equals(ApplicationType.APP_SERVICE)) {
                 if (properties.getApplicationConfiguration().getTier().equals(Tier.FREE) ||
                         properties.getApplicationConfiguration().getTier().equals(Tier.BASIC)) {
-
+                    if (properties.getNetworkConfiguration().getNetworkType().equals(NetworkType.PRIVATE_ENDPOINT)){
+                        log.debug("VNET with private endpoints configuration is requested, so the App Service configuration was updated to the Premium tier.");
+                        properties.getApplicationConfiguration().setTier(Tier.PREMIUM);
+                    }
                     log.debug("VNET configuration is requested, so the App Service configuration was updated to the Standard tier.");
                     properties.getApplicationConfiguration().setTier(Tier.STANDARD);
                 }
