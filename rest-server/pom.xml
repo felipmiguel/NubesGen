@@ -4,13 +4,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.0</version>
+        <version>3.3.5</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.github.nubesgen</groupId>
     <artifactId>nubesgen</artifactId>
     <!-- Do not modify this version manually, read https://github.com/microsoft/NubesGen/blob/main/CONTRIBUTING.md#doing-a-release -->
-    <version>0.16.1-SNAPSHOT</version>
+    <version>0.18.3-SNAPSHOT</version>
     <name>nubesgen</name>
     <packaging>jar</packaging>
     <description>NubesGen REST server</description>
@@ -21,7 +21,7 @@
     </scm>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
     </properties>
 
     <dependencies>
@@ -36,12 +36,12 @@
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-blob</artifactId>
-            <version>12.22.3</version>
+            <version>12.29.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.23.0</version>
+            <version>1.27.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.1.0</version>
+            <version>2.6.0</version>
         </dependency>
     </dependencies>
 
@@ -81,7 +81,7 @@
                 <artifactId>native-maven-plugin</artifactId>
                 <configuration>
                     <buildArgs>
-                        <arg>--initialize-at-build-time=org.slf4j.impl.StaticLoggerBinder,org.slf4j.LoggerFactory,ch.qos.logback.classic.Logger,ch.qos.logback.core.spi.AppenderAttachableImpl,ch.qos.logback.core.status.StatusBase,ch.qos.logback.classic.Level,ch.qos.logback.core.status.InfoStatus,ch.qos.logback.classic.PatternLayout,ch.qos.logback.core.CoreConstants,ch.qos.logback.core.util.Loader,ch.qos.logback.core.util.StatusPrinter,ch.qos.logback.core.pattern.parser.Parser</arg>
+                        <arg>--initialize-at-build-time=org.slf4j.impl.StaticLoggerBinder,org.slf4j.LoggerFactory,ch.qos.logback.classic.Logger,ch.qos.logback.core.spi.AppenderAttachableImpl,ch.qos.logback.core.status.StatusBase,ch.qos.logback.classic.Level,ch.qos.logback.core.status.InfoStatus,ch.qos.logback.classic.PatternLayout,ch.qos.logback.core.CoreConstants,ch.qos.logback.core.util.Loader,ch.qos.logback.core.util.StatusPrinter,ch.qos.logback.core.pattern.parser.Parser,ch.qos.logback.classic.spi.LogbackServiceProvider,ch.qos.logback.classic.LoggerContext,org.slf4j.helpers.NOPLoggerFactory,org.slf4j.helpers.SubstituteServiceProvider,ch.qos.logback.core.joran.spi.ConsoleTarget,ch.qos.logback.core.joran.spi.ConsoleTarget$2,ch.qos.logback.core.util.CachingDateFormatter,ch.qos.logback.core.encoder.LayoutWrappingEncoder,org.slf4j.helpers.SubstituteLoggerFactory,ch.qos.logback.classic.pattern.ThrowableProxyConverter,ch.qos.logback.classic.layout.TTLLLayout,ch.qos.logback.core.joran.spi.ConsoleTarget$1,ch.qos.logback.core.spi.ContextAwareImpl,ch.qos.logback.classic.util.ContextInitializer$1,ch.qos.logback.classic.BasicConfigurator,ch.qos.logback.classic.util.ContextInitializer,ch.qos.logback.core.spi.LogbackLock,ch.qos.logback.core.helpers.CyclicBuffer,ch.qos.logback.core.BasicStatusManager,ch.qos.logback.classic.util.LogbackMDCAdapter,ch.qos.logback.core.spi.FilterAttachableImpl,ch.qos.logback.classic.spi.TurboFilterList,ch.qos.logback.core.ConsoleAppender,ch.qos.logback.core.util.CachingDateFormatter$CacheTuple,ch.qos.logback.core.util.COWArrayList,ch.qos.logback.classic.spi.LoggerContextVO,org.slf4j.helpers.NOP_FallbackServiceProvider,com.fasterxml.jackson.core.Base64Variant,com.fasterxml.jackson.core.Base64Variant$PaddingReadBehaviour</arg>
                     </buildArgs>
                 </configuration>
             </plugin>
@@ -93,7 +93,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.1.1</version>
                 <configuration>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration>
@@ -101,7 +101,7 @@
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
-                <version>6.0.0</version>
+                <version>9.0.1</version>
                 <executions>
                     <execution>
                         <id>get-the-git-infos</id>
